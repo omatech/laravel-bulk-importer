@@ -1,0 +1,22 @@
+{
+    "name": "omatech/bulkimporter",
+    "description": "Import records in a database table massively in a easy way.",
+    "type": "library",
+    "require-dev": {
+        "orchestra/testbench": "^6.22",
+        "phpunit/phpunit": "^9.5"
+    },
+    "license": "GNU",
+    "autoload": {
+        "psr-4": {
+            "Omatech\\": "src/Omatech"
+        }
+    },
+    "authors": [
+        {
+            "name": "Agusti Pons",
+            "email": "apons@omatech.com"
+        }
+    ],
+    "require": {}
+}
