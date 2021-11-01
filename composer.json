@@ -21,7 +21,10 @@
     "require": {},
     "extra": {
         "laravel": {
-            "aliases": {
+            "providers": [
+                "Omatech\\BulkImporter\\BulkImporterServiceProvider"
+            ],
+                "aliases": {
                 "BulkImporter": "Omatech\\BulkImporter\\Facade"
             }
         }
