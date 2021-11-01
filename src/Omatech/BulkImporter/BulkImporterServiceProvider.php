@@ -8,6 +8,10 @@ final class BulkImporterServiceProvider extends ServiceProvider
 {
     protected $defer = true;
 
+    public function register()
+    {
+    }
+
     public function provides()
     {
         return [
