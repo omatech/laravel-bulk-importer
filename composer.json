@@ -18,5 +18,12 @@
             "email": "apons@omatech.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "extra": {
+        "laravel": {
+            "aliases": {
+                "BulkImporter": "Omatech\\BulkImporter\\Facade"
+            }
+        }
+    }
 }
