@@ -24,7 +24,7 @@
             "providers": [
                 "Omatech\\BulkImporter\\BulkImporterServiceProvider"
             ],
-                "aliases": {
+            "aliases": {
                 "BulkImporter": "Omatech\\BulkImporter\\Facade"
             }
         }
