@@ -1,12 +1,12 @@
 {
-    "name": "omatech/bulkimporter",
+    "name": "omatech/laravel-bulkimporter",
     "description": "Import records in a database table massively in a easy way.",
     "type": "library",
     "require-dev": {
         "orchestra/testbench": "^6.22",
         "phpunit/phpunit": "^9.5"
     },
-    "license": "GNU",
+    "license": "GPL-3.0-or-later",
     "autoload": {
         "psr-4": {
             "Omatech\\": "src/Omatech"
