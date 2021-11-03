@@ -60,6 +60,16 @@ class BulkImporter
         $this->fields=$fields;
     }
 
+    private function extractValueStringFromRow($row)
+    {
+        $values=[];
+        foreach ($row as $val) {
+            $value=$this->cleanValue($val);
+            $values[]=$value;
+        }
+        return '('.implode(',', $values).')';
+    }
+
     private function cleanValue($val)
     {
         if (isset($val) && !is_numeric($val) && $val!='now()') {
@@ -69,16 +79,6 @@ class BulkImporter
             $val='null';
         }
         return $val;
-    }
-
-    private function extractValueStringFromRow($row)
-    {
-        $values=[];
-        foreach ($row as $val) {
-            $value=$this->cleanValue($val);
-            $values[]=$value;
-        }
-        return '('.implode(',', $values).')';
     }
 
     private function insertBatch(array $batch)
