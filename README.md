@@ -2,6 +2,8 @@
 
 Insert records in a table massively in a very easy way, you can control the batch size with the optional parameter.
 
+## Install
+composer require omatech/laravel-bulkimporter
 ## Usage
 
 Init the BulkImporter:
@@ -67,6 +69,7 @@ Bulk import in MySQL is one of the most important performance improvements you c
 
 You can see the output of the performance test with 100.000 records and compare the performance with different batch sizes:
 
+```
 limit=100000 size=1 batchsExecuted=100000 expected=100000 seconds=3995.7 minutes=66.6
 limit=100000 size=5 batchsExecuted=20000 expected=20000 seconds=890.88 minutes=14.85
 limit=100000 size=25 batchsExecuted=4000 expected=4000 seconds=206.85 minutes=3.45
@@ -77,4 +80,4 @@ limit=100000 size=15625 batchsExecuted=7 expected=7 seconds=6.88 minutes=0.11
 limit=100000 size=78125 batchsExecuted=2 expected=2 seconds=6.13 minutes=0.1
 limit=100000 size=100000 batchsExecuted=1 expected=1 seconds=8.6 minutes=0.14
 Compare 3995.7 to 8.6, OMFG! it's 464.62 times faster
-
+```
