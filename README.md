@@ -3,7 +3,9 @@
 Insert records in a table massively in a very easy way, you can control the batch size with the optional parameter.
 
 ## Install
+```
 composer require omatech/laravel-bulkimporter
+```
 ## Usage
 
 Init the BulkImporter:
