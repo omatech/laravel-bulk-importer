@@ -31,6 +31,8 @@ $rows should be in the form of an array where the key is the name of the databas
 - "now()" --> automatically insert the current date.
 
 For example:
+
+```
 [
   0=>[
     'key'=>'1111111',
@@ -46,6 +48,7 @@ For example:
   ]
   ...
 ]
+```
 
 Optionally you can use the method delete to remove all the records from the table:
 
