@@ -19,14 +19,10 @@
         }
     ],
     "require": {},
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Omatech\\BulkImporter\\BulkImporterServiceProvider"
-            ],
-            "aliases": {
-                "BulkImporter": "Omatech\\BulkImporter\\Facade"
-            }
-        }
+    "scripts": {
+        "phpunit": "vendor/bin/phpunit",
+        "test": [
+            "@phpunit"
+        ]
     }
 }

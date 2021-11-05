@@ -1,11 +1,9 @@
 <?php
 namespace Tests;
 
-use Orchestra\Testbench\TestCase;
-use Omatech\BulkImporter\BulkImporter;
 use Faker\Factory;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
+use Omatech\BulkImporter\BulkImporter;
 
 class BulkImporterTest extends \Orchestra\Testbench\TestCase
 {
@@ -29,8 +27,9 @@ class BulkImporterTest extends \Orchestra\Testbench\TestCase
         $app['config']->set('database.connections.'.$this->db, [
                 'driver'   => 'mysql',
                 'database' => $this->db,
-                'host' => 'localhost',
+                'host' => 'database.local',
                 'username' => 'root',
+                'password' => 'root',
                 'prefix'   => '',
             ]);
     }
@@ -43,7 +42,7 @@ class BulkImporterTest extends \Orchestra\Testbench\TestCase
         $this->artisan('migrate', ['--database' => $this->db])->run();
         $this->initTestData();
     }
-    
+
     private function initTestData()
     {
         $faker = Factory::create();
@@ -120,7 +119,7 @@ class BulkImporterTest extends \Orchestra\Testbench\TestCase
             $this->assertTrue($bulkImporter->batchsExecuted==ceil($this->limit / $i));
         }
     }
-    
+
     public function testPerformance()
     {
         $bulkImporter=new BulkImporter($this->table);

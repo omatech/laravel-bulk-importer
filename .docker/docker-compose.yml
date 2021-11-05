@@ -1,0 +1,45 @@
+version: "3.8"
+services:
+  php:
+    environment:
+      - XDEBUG_MODE=coverage
+    build:
+      context: "."
+      dockerfile: "php/Dockerfile"
+      args:
+        UID: ${UID}
+        GID: ${GID}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    networks:
+      - docker
+    volumes:
+      - mariadb-socket:/var/run/mysqld
+      - ../:/app
+  mariadb:
+    environment:
+      - MARIADB_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=bulkimporter
+    build:
+      context: "."
+      dockerfile: "mariadb/Dockerfile"
+    healthcheck:
+      test: "/usr/bin/mysql -uroot -proot -e 'SHOW DATABASES;'"
+      timeout: 10s
+      retries: 10
+    ports:
+      - "3306:3306"
+    networks:
+      docker:
+        aliases:
+          - database.local
+    volumes:
+      - mariadb:/var/lib/mysql
+      - mariadb-socket:/var/run/mysqld
+networks:
+  docker:
+    name: docker
+volumes:
+  mariadb-socket:
+  mariadb:
