@@ -1,9 +1,9 @@
 <?php
 
-namespace Omatech\Bulkimporter;
+namespace Omatech\BulkImporter;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class BulkImporter
 {

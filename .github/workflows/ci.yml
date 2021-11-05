@@ -1,0 +1,23 @@
+name: Bulk Importer
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Testing
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Task
+        uses: arduino/setup-task@v1
+
+      - name: Build Container
+        run: task build
+
+      - name: Install Dependencies
+        run: task install
+
+      - name: Testing
+        run: task test

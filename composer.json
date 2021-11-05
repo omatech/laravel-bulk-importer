@@ -18,5 +18,11 @@
             "email": "apons@omatech.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "scripts": {
+        "phpunit": "vendor/bin/phpunit",
+        "test": [
+            "@phpunit"
+        ]
+    }
 }
