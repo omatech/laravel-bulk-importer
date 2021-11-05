@@ -83,3 +83,42 @@ limit=100000 size=78125 batchsExecuted=2 expected=2 seconds=6.13 minutes=0.1
 limit=100000 size=100000 batchsExecuted=1 expected=1 seconds=8.6 minutes=0.14
 Compare 3995.7 to 8.6, OMFG! it's 464.62 times faster
 ```
+
+## Sample command inside your laravel application
+
+Supose that you have already set up a database with the standard users table you can bulk load an array of users.
+
+Of course it makes only sense if there's thousands of records, but you get the idea.
+
+```
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use Omatech\BulkImporter\BulkImporter;
+use Illuminate\Support\Facades\Hash;
+
+class BulkImportCommand extends Command
+{
+    protected $signature = 'example:bulkimport';
+    protected $description = 'Test bulkimport';
+    public function __construct()
+    {
+        parent::__construct();
+    }
+    public function handle()
+    {
+        $bulkImporter=new BulkImporter('users');
+        $data=[
+            ['name'=>'Agus', 'email'=>'agus@testemail.com', 'password'=>Hash::make('aguspassword'), 'created_at'=>'now()'],
+            ['name'=>'Cesc', 'email'=>'cesc@testemail.com', 'password'=>Hash::make('cescpassword'), 'created_at'=>'now()'],
+            ['name'=>'Javi', 'email'=>'javi@testemail.com', 'password'=>Hash::make('javipassword'), 'created_at'=>'now()'],
+            ['name'=>'Christian', 'email'=>'christian@testemail.com', 'password'=>Hash::make('christianword'), 'created_at'=>'now()']
+        ];
+        $bulkImporter->import($data);
+        return Command::SUCCESS;
+    }
+}
+
+```
