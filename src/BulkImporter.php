@@ -76,7 +76,14 @@ class BulkImporter
             $val=DB::connection()->getPdo()->quote($val);
         }
         if (!$val) {
-            $val='null';
+            if ($val===0)
+            {
+                $val=0;
+            }
+            else
+            {
+                $val='null';
+            }
         }
         return $val;
     }
