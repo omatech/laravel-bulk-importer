@@ -34,23 +34,21 @@ class BulkImporter
 
     public function __construct(string $table)
     {
-        $this->table=$table;
+        $this->table = $table;
     }
 
     public function import($rows, $batch_size = 1000)
     {
         assert($rows);
-        $this->batchsExecuted=0;
-        $this->recordsInserted=0;
-
+        $this->batchsExecuted = 0;
+        $this->recordsInserted = 0;
         $this->initFields($rows[0]);
-
-        $batch=[];
+        $batch = [];
         foreach ($rows as $row) {
-            $batch[]=$this->extractValueStringFromRow($row);
+            $batch[] = $this->extractValueStringFromRow($row);
             if (count($batch) % $batch_size == 0) {
                 $this->insertBatch($batch);
-                $batch=[];
+                $batch = [];
             }
         }
         $this->insertBatch($batch);
@@ -58,13 +56,13 @@ class BulkImporter
 
     public function delete()
     {
-        $sql="delete from ".$this->table;
+        $sql = "delete from " . $this->table;
         $this->run($sql);
     }
 
     public function count()
     {
-        $sql="select count(*) count from ".$this->table;
+        $sql = "select count(*) count from " . $this->table;
         return $this->run($sql)[0]->count;
     }
 
@@ -72,32 +70,53 @@ class BulkImporter
     {
         $fields = [];
         foreach ($row as $key => $val) {
-            // scape fields
-            $fields[] = '`'.$key.'`';
+            // Escape fields
+            $fields[] = "`{$key}`";
         }
-        $this->initialSql = "insert into ".$this->table." (".implode(',', $fields).")	values ";
-        $this->fields=$fields;
+        $this->initialSql = "INSERT INTO `{$this->table}` (" . implode(',', $fields) . ") VALUES ";
+        $this->fields = $fields;
     }
 
     private function extractValueStringFromRow($row)
     {
-        $values=[];
+        $values = [];
         foreach ($row as $val) {
-            $value=$this->cleanValue($val);
-            $values[]=$value;
+            $value = $this->cleanValue($val);
+            $values[] = $value;
         }
-        return '('.implode(',', $values).')';
+        return '(' . implode(',', $values) . ')';
     }
 
+    /**
+     * Cleans the value for insertion into the database.
+     *
+     * @param mixed $val The value to be cleaned.
+     * @return string The cleaned value.
+     */
     private function cleanValue($val)
     {
-        if (isset($val) && !is_numeric($val) && $val!='now()') {
-            $val=DB::connection()->getPdo()->quote($val);
+        // Explicit NULL check - also checks for null or empty string
+        if (is_null($val) || $val === null || $val === '') {
+            return 'NULL';
         }
-        if (!$val && $val!=0) {
-            $val='null';
+
+        // "now()" function
+        if (is_string($val) && strtolower($val) === 'now()') {
+            return 'NOW()';
         }
-        return $val;
+
+        // Numeric values (int and float)
+        if (is_numeric($val)) {
+            return $val;
+        }
+
+        // String values - use correct escaping
+        if (is_string($val)) {
+            return DB::connection()->getPdo()->quote($val);
+        }
+
+        // Fallback for any other type
+        return 'NULL';
     }
 
     private function insertBatch(array $batch)
@@ -105,17 +124,16 @@ class BulkImporter
         if (!$batch) {
             return;
         }
-
-        $sql=$this->initialSql.implode(',', $batch);
+        $sql = $this->initialSql . implode(',', $batch);
         $this->run($sql);
         $this->batchsExecuted++;
-        $this->recordsInserted+=count($batch);
+        $this->recordsInserted += count($batch);
     }
 
     private function run($sql)
     {
         try {
-            $ret=DB::select($sql);
+            $ret = DB::select($sql);
             return $ret;
         } catch (QueryException $ex) {
             dd($ex->getMessage());
