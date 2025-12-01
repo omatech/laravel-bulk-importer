@@ -7,11 +7,30 @@ use Illuminate\Support\Facades\DB;
 
 class BulkImporter
 {
-    private string $table='';
-    private array $fields;
-    private string $initialSql='';
-    public int $batchsExecuted=0;
-    public int $recordsInserted=0;
+    /**
+     * @var string
+     */
+    private $table = '';
+
+    /**
+     * @var array
+     */
+    private $fields;
+
+    /**
+     * @var string
+     */
+    private $initialSql = '';
+
+    /**
+     * @var int
+     */
+    public $batchsExecuted = 0;
+
+    /**
+     * @var int
+     */
+    public $recordsInserted = 0;
 
     public function __construct(string $table)
     {
