@@ -95,8 +95,8 @@ class BulkImporter
      */
     private function cleanValue($val)
     {
-        // Explicit NULL check - also checks for null or empty string
-        if (is_null($val) || $val === null || $val === '') {
+        // Explicit NULL check
+        if (is_null($val)) {
             return 'NULL';
         }
 
@@ -110,13 +110,8 @@ class BulkImporter
             return $val;
         }
 
-        // String values - use correct escaping
-        if (is_string($val)) {
-            return DB::connection()->getPdo()->quote($val);
-        }
-
         // Fallback for any other type
-        return 'NULL';
+        return DB::connection()->getPdo()->quote($val);
     }
 
     private function insertBatch(array $batch)
